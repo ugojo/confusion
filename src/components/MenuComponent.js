@@ -1,18 +1,19 @@
 import React from "react";
 import {Card, CardImg ,CardText ,CardTitle, CardImgOverlay, CardBody} from "reactstrap";
+import { Link } from 'react-router-dom';
 
-import DishDetails from './DishdetailsComponent';
 
 
          
-  function RenderMeunIteam({dish, onClick}) {
+  function RenderMeunIteam({dish}) {
        return(
-        <Card  
-              onClick ={()=> onClick(dish.id)}>
+        <Card >
+          <Link to={`/menu/${dish.id}`}>
           <CardImg width="100%" src={dish.image} alt={dish.name} />
           <CardImgOverlay>
                  <CardTitle>{dish.name}</CardTitle>
           </CardImgOverlay>
+          </Link>
         </Card>
        )
   }     
@@ -22,7 +23,7 @@ import DishDetails from './DishdetailsComponent';
       const menu = props.dishes.map((dish)=>{
           return(
            <div className="col-12 col-md-5 " key={dish.id} >
-             <RenderMeunIteam  dish={dish} onClick={props.onClick} />    
+             <RenderMeunIteam  dish={dish} />    
            </div>
         )
             
