@@ -12,7 +12,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-popper": "^2.3.0",
-    "react-redux": "^5.0.7",
+    "react-redux": "^5.1.2",
     "react-redux-form": "^1.16.8",
     "react-router-dom": "^4.2.2",
     "react-scripts": "5.0.1",
@@ -43,5 +43,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/react-redux": "^7.1.24"
   }
 }
