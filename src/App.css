@@ -18,8 +18,8 @@
 .jumbotron {
     padding:70px 30px 70px 30px;
     margin:0px auto;
-    background-color: #D1C4E9;
-    color:floralwhite;
+    background-color: #28144e;
+    color:rgb(228, 171, 57);
 }
 
 address{
@@ -31,5 +31,3 @@ address{
 .navbar-dark {
     background-color: #ab7eff;
 }
-
-

@@ -1,7 +1,5 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';   
+import React, { Component } from 'react'; 
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import DishDetail from './DishdetailsComponent';
 import Header from './HeaderComponent';
 import Footer from './FooterComponent';
@@ -9,6 +7,8 @@ import Home from './HomeComponent';
 import Menu from './MenuComponent';
 import  Contact  from './ContactComponent';
 import About from './AboutComponet';
+import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';  
 
 
 
@@ -17,16 +17,18 @@ import About from './AboutComponet';
 
 const mapStateToProps = state => {
   return{
-     dishes : state.dishes,
-     leaders : state.leaders,
-     comments : state.comments,
-     promotions : state.promotions
+    dishes : state.dishes,
+    leaders : state.leaders,
+    comments : state.comments,
+    promotions : state.promotions
   }
   }
 
 class Main extends Component{
 
-
+constructor(props){
+  super(props);
+}
 
 
   render(){
@@ -66,4 +68,4 @@ class Main extends Component{
   
 
 
-export default connect(mapStateToProps)(Main);
+export default withRouter(connect(mapStateToProps)(Main));
