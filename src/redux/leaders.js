@@ -1,12 +1,22 @@
-import {LEADERS} from '../sheared/leaders';
+import * as ActionType from '../redux/ActionType';
 
-export  function Leaders(state = LEADERS , action) {
+export  function Leaders(state = {
+                         isLoading : true,
+                         errMsg : null,
+                         leaders : []
+                      } , action) {
   
-    switch (action.Type) {
-    
-       default:
-          
-    }
+    switch (action.type) {
+        case ActionType.ADD_LEADERS :
+             return  {...state, isLoading : false , errMsg: null , leaders : action.payload}
 
-    return state;
+        case ActionType.LEADERS_LOADING:
+            return  {...state, isLoading : true , errMsg: null , leaders : []}
+
+        case ActionType.LEADERS_FAILED:
+            return  {...state, isLoading : false , errMsg: action.payload , leaders : []}
+        
+       default:
+        return state;     
+    }
 }

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Card, CardBody,CardImg, CardText, CardTitle, CardSubtitle } from 'reactstrap';
 import {Loading} from './LoadingComponent';
+import {baseUrl} from '../sheared/baseUrl';
 
 function RederItem({item, isLoading, errMsg}) {
   if (isLoading) {
@@ -25,7 +26,7 @@ function RederItem({item, isLoading, errMsg}) {
   else
    return(
      <Card>
-      <CardImg src={item.image}  alt={item.name} />
+      <CardImg src={baseUrl + item.image}  alt={item.name} />
        <CardBody>
           <CardTitle> {item.name} </CardTitle>
           { item.designation ? <CardSubtitle> {item. designation} </CardSubtitle> : null }
@@ -42,14 +43,18 @@ function Home(props) {
         <div className='row'>
            <div className='col-12 col-md m-1'>
             <RederItem item={props.dishes} 
-                    isLoading={props.isLoading}
-                     errMsg={props.errMsg}/>
-           </div>
-           <div className='col-12 col-md m-1'>
-            <RederItem item={props.promotions} />
+                    isLoading={props.dishesLoading}
+                    errMsg={props.dishesErr} />
            </div>
            <div className='col-12 col-md  m-1'>
-            <RederItem item={props.leaders} />
+            <RederItem item={props.promotions}
+                        isLoading={props.promosLoading}
+                        errMsg={props.promosErr} />
+           </div>
+           <div className='col-12 col-md m-1'>
+            <RederItem item={props.leaders} 
+                       isLoading={props.leadersLoading}
+                       errMsg={props.leadersErr}/>
            </div>
         </div>
       </div>

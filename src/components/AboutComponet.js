@@ -1,14 +1,36 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Breadcrumb, BreadcrumbItem ,Media} from 'reactstrap';
+import {Loading} from './LoadingComponent';
+import {baseUrl} from '../sheared/baseUrl';
 
 
-function RenderLeader({leader}) {
+function RenderLeader({leader, isLoading ,errMsg}) {
+    if (isLoading) {
+        return(
+          <div className="container">
+            <div className="row">
+               <Loading />
+            </div>
+          </div>
+        )
+      }
+      if (errMsg) {
+        return(
+          <div className="container">
+            <div className="row">
+               <h4> {errMsg} </h4>
+            </div>
+          </div>
+        )
+        
+      }
+ else{
     return(
         <div className='col-12 mt-5'>
           <Media>
             <Media left middle-top>
-                <Media  object src={leader.image} alt={leader.name}  />
+                <Media  object src={baseUrl + leader.image} alt={leader.name}  />
             </Media>
             <Media body className='ml-5'>
             <Media heading> {leader.name} 
@@ -19,6 +41,7 @@ function RenderLeader({leader}) {
         </div>
        
     )
+}
 }
 function RenderAbout() {
     return(
@@ -110,7 +133,9 @@ function About(props) {
     const showleaders = props.leaders.map((leader)=>{
         return(   
             <div className="col-12 " key={leader.id} >
-                <RenderLeader  leader={leader} />    
+                <RenderLeader  leader={leader} 
+                               isLoading={props.leadersLoading}
+                               errMsg={props.leadersErr}/>    
            </div>
         )
     })

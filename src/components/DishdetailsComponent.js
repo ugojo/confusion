@@ -4,6 +4,7 @@ import {Card, CardImg ,CardText ,CardTitle, CardBody, Breadcrumb ,
 import { Link } from 'react-router-dom';
 import { LocalForm, Control, Errors} from 'react-redux-form'
 import {Loading}  from './LoadingComponent';
+import {baseUrl} from '../sheared/baseUrl';
 
 
    
@@ -16,7 +17,7 @@ const maxLength = (len)=>(val)=> (!val) || (val.length <= len);
       return(
       <div className="col-12 col-md m-1">
         <Card>
-          <CardImg top width="100%" src={dish.image}  alt={dish.name}/>
+          <CardImg top width="100%" src={baseUrl + dish.image}  alt={dish.name}/>
            <CardBody>
              <CardTitle> {dish.name} </CardTitle>  
              <CardText> {dish.description} </CardText>
@@ -29,7 +30,7 @@ const maxLength = (len)=>(val)=> (!val) || (val.length <= len);
           <div></div>
          )
     }
-  function RenderComment({comments, addComment, dishId}){
+  function RenderComment({comments, postComment, dishId}){
         if (comments != null) 
           return(
             <div className="col-12 col-md m-1">
@@ -46,7 +47,7 @@ const maxLength = (len)=>(val)=> (!val) || (val.length <= len);
                     )
                 })}
               </ul>
-                <CommentsForm addComment={addComment} dishId={dishId} />
+                <CommentsForm postComment={postComment} dishId={dishId} />
             </div>
             
           )
@@ -75,7 +76,7 @@ class CommentsForm extends Component{
   }
   handleSubmit(values) {
    this.toggleModal();
-   this.props.addComment(this.props.dishId , values.rating, values.comment, values.author );
+   this.props.postComment(this.props.dishId , values.rating, values.comment, values.author );
  
 }
 
@@ -179,7 +180,7 @@ class CommentsForm extends Component{
                 </div>
                 <div className="col-12 col-md-5 m-1">
                   <RenderComment comments={props.comments} 
-                                 addComment={props.addComment}
+                                 postComment={props.postComment}
                                  dishId={props.dish.id}  />
                 </div>
             </div>

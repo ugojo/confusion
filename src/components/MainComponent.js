@@ -9,7 +9,8 @@ import  Contact  from './ContactComponent';
 import About from './AboutComponet';
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { addComment, fetchDishes } from '../redux/ActionCreators';
+import { postComment, fetchDishes, fetchLeaders, fetchPromotions, fetchComments, postFeedback } from '../redux/ActionCreators';
+import { actions } from 'react-redux-form';
 
 
 
@@ -27,8 +28,13 @@ const mapStateToProps = state => {
 
 const mapDispatchtoProps = (dispatch) =>({
   
-   addComment : (dishId, rating, author, comment)=>{dispatch(addComment(dishId, rating, author, comment))},
-   fetchDishes : ()=> {dispatch(fetchDishes())}
+   postComment : (dishId, rating, author, comment)=>{dispatch(postComment(dishId, rating, author, comment))},
+   postFeedback : (firstname, lastname ,telnum, email ,agree ,contactType, message)=>{ dispatch(postFeedback(firstname, lastname ,telnum, email ,agree ,contactType, message))},
+   fetchDishes : ()=> {dispatch(fetchDishes())},
+   fetchLeaders : ()=> { dispatch(fetchLeaders())},
+   fetchPromotions : ()=>{dispatch(fetchPromotions())},
+   fetchComments : ()=>{ dispatch(fetchComments())},
+   resetfeedBackForm : ()=>{ dispatch(actions.reset('feedback'))}
 })
 
 class Main extends Component{
@@ -39,6 +45,9 @@ constructor(props){
 }
 componentDidMount(){
   this.props.fetchDishes();
+  this.props.fetchLeaders();
+  this.props.fetchPromotions();
+  this.props.fetchComments();
 }
 
   render(){
@@ -46,10 +55,14 @@ componentDidMount(){
     const HomePage = ()=>{
         return(
             <Home  dishes={this.props.dishes.dishes.filter((dish)=> dish.featured)[0]} 
-              isLoading={this.props.dishes.isLoading}
-              errMsg={this.props.dishes.errMsg}
-              leaders={this.props.leaders.filter((leader)=> leader.featured)[0]} 
-              promotions={this.props.promotions.filter((promo)=> promo.featured)[0]}
+              dishesLoading={this.props.dishes.isLoading}
+              dishesErr={this.props.dishes.errMsg}
+              promotions={this.props.promotions.promotions.filter((promo)=> promo.featured)[0]}
+              promosLoading={this.props.promotions.isLoading}
+              promosErr={this.props.promotions.errMsg}
+              leaders={this.props.leaders.leaders.filter((leader)=> leader.featured)[0]}
+              leadersLoading={this.props.leaders.isLoading}
+              leadersErr={this.props.leaders.errMsg}
              />
         )
     };
@@ -58,8 +71,8 @@ componentDidMount(){
             <DishDetail  dish={this.props.dishes.dishes.filter((dish)=> dish.id === parseInt(match.params.dishId, 10))[0]}  
                isLoading={this.props.dishes.isLoading}
                errMsg={this.props.dishes.errMsg}
-               comments={this.props.comments.filter((comment)=> comment.dishId === parseInt(match.params.dishId,10))}  
-               addComment={this.props.addComment}  />
+               comments={this.props.comments.comments.filter((comment)=> comment.dishId === parseInt(match.params.dishId,10))}  
+               postComment={this.props.postComment}  />
         );
     }
 
@@ -70,8 +83,11 @@ componentDidMount(){
         <Route path='/home' component={HomePage} />
         <Route exact path='/menu' component={()=>  <Menu dishes={this.props.dishes} />}   />
         <Route path='/menu/:dishId' component={DishWithId} />
-        <Route path='/contactus'  component={Contact}  />
-        <Route path='/aboutus' component={()=> <About leaders={this.props.leaders} />} />
+        <Route path='/contactus'  component={ ()=> < Contact resetfeedBackForm={this.props.resetfeedBackForm }
+                                                             postFeedback={this.props.postFeedback}/> }  />
+        <Route path='/aboutus' component={()=> <About leaders={this.props.leaders.leaders} 
+                                                      leadersLoading={this.props.leaders.isLoading}
+                                                      leadersErr={this.props.leaders.errMsg}/>} />
         <Redirect to='/home' />
       </Switch>
       <Footer />
